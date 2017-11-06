@@ -1,0 +1,10 @@
+pubmed.py
+
+*.pyc
+*.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+/private
+/development
+/intertext.egg-info
