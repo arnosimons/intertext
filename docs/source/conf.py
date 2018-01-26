@@ -60,7 +60,7 @@ copyright = u'2017 – {}, {}'.format(THIS_YEAR, author)
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-VERSION = u'0.0.1'
+VERSION = u'0.0.2'
 # The short X.Y version.
 version = VERSION
 # The full version, including alpha/beta/rc tags.

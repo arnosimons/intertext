@@ -31,7 +31,7 @@ import os
 
 
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 INSTALL_REQUIRES = [
     'networkx>1,<2',
     'textacy',
@@ -56,7 +56,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version=VERSION,
 
-    description='tools for relational discourse analysis',
+    description='A tool for the relational analysis of texts',
     long_description=long_description,
 
     # The project's main homepage.

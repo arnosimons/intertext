@@ -73,6 +73,13 @@ RE_QUOTATIONS_SINGLE = re.compile(u'[\u0027\u2018\u2019\u201A\u201B\u2039'\
 RE_QUOTATIONS_DOUBLE = re.compile(u'[\u0022\u00AB\u00BB\u201C\u201D\u201E'\
 	u'\u201F\u300E\u300F\u301D\u301E\u301F\uFE43\uFE44\uFF02]')
 
+QUOTATIONS_OPENING = u'\u0027\u2018\u201A\uFF07\u0022\u00AB\u201C\u201E\u301D\uFF02'
+QUOTATIONS_CLOSING =  u'\u0027\u2019\u201B\uFF07\u0022\u00BB\u201D\u201F\u301E\uFF02'
+
+
+DASHES = u'\u002D\u058A\u05BE\u1400\u1806\u2010\u2011\u2012\u2013\u2014\u2015\uFE58\uFE63\uFF0D'
+RE_DASHES = re.compile(u'[\u002D\u058A\u05BE\u1400\u1806\u2010\u2011\u2012\u2013\u2014\u2015\uFE58\uFE63\uFF0D]')
+
 RE_ESCAPE = re.compile(r'|'.join([r"(\\)'",r'(\\)"']))
 RE_CHAR = re.compile(r'[\'",/:)(.&%\[\]\\*+-]')
 RE_LONELY_CHAR = re.compile(r'(?<=\b)'
@@ -90,14 +97,32 @@ RE_FORTHCOMING = re.compile(r'forthcoming|Forthcoming|FORTHCOMING|'\
 	r'In Print|in print|IN PRINT')
 RE_INTEXT_CITATION_CANDIDATE = re.compile(
 	r'\([^()]*(?:19|20)\d\d[a-f]*[^()]*\)')
-RE_DOI = re.compile(r'[dD][oO][iI]: *10[0-9./():<>;A-Za-z-]+|'\
-	r'http://dx.doi.org/10[0-9./():<>;A-Za-z-]+')
+DOI = u'[dD][oO][iI]: *10[0-9./():<>;A-Za-z-]+|'\
+	u'http://dx.doi.org/10[0-9./():<>;A-Za-z-]+'
+RE_DOI = re.compile(DOI)
+VOL_ISSUE = u'\d{1,3} *\(\d{,2}\)'
+RE_VOL_ISSUE = re.compile(VOL_ISSUE)
+# EDS = u'\((?:ed\.*|editor|editors|eds\.*|edited|hrsg\.*)\)'
+EDS = r'\((?:ed\.*|editor|editors|eds\.*|edited|hrsg\.*)\)|\bed\.* by\b|edited by\b|\b\(*ed.*\b'
+RE_EDS = re.compile(EDS)
+EDITION = u'\((?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|1st|2nd|3rd|\d\d?th|\d\d?\.) *(?:ed\.*|edition|ausgabe|ausgb.*)\)'
+RE_EDITION = re.compile(EDS)
+NUM_IN_BRACKETS = u'\(\d+\)'
+
+
+
+
+# print re.match(NUM_IN_BRACKETS,'(9098)')
+# se
 
 
 ### For date parsing
 ###############################################################################
-YEAR = r'\d\d\d\d'
-RECENTYEAR = r'(?:19|20)\d\d'
+YEAR = r'\b\d\d\d\d\b'
+RECENTYEAR = r'\b(?:19|20)\d\d\b'
+YEAR_abc = r'\b\d\d\d\d[a-z]?\b'
+RECENTYEAR_abc = r'\b(?:19|20)\d\d[a-z]?\b'
+
 MODERNYEAR = r'(?:15|16|17|18|19|20)\d\d'
 DAYOFMONTH = r'(?:0*[1-9]|1\d|2\d|30|31)\.*'
 MONTH = r'(?:[Jj][aA][nN][uU]*[aA]*[rR]*[yY]*|'\
@@ -132,7 +157,7 @@ RE_YEAR = re.compile(r'\b'+YEAR+r'\b')
 RE_RECENTYEAR = re.compile(r'\b'+RECENTYEAR+r'\b')
 RE_DAYOFMONTH = re.compile(r'\b'+DAYOFMONTH+r'\b')
 
-RE_VALID_DATE = re.compile(u'^'+YEAR+'|'+DATE_ALL+'$') # other formats?
+RE_VALID_DATE = re.compile(u'^'+YEAR_abc+'|'+DATE_ALL+'$') # other formats?
 
 
 ### For name parsing
@@ -142,7 +167,8 @@ ACCENTS_UPPER = u'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÑÒÓÔÕÖØŒŠÚÛÜÙÝŸ
 
 FIRSTNAME = u'[a-zA-Z{0}{1}][-a-zA-Z \.{0}{1}]*'.format(
 	ACCENTS_LOWER, ACCENTS_UPPER)
-LASTNAME = u"[a-zA-Z'{0}{1}][-a-zA-Z' {0}{1}]*".format(ACCENTS_LOWER,ACCENTS_UPPER)
+LASTNAME = u"[a-zA-Z'{0}{1}][-a-zA-Z' \.{0}{1}]*".format(
+	ACCENTS_LOWER,ACCENTS_UPPER)
 NAME = u'{}(, {})?'.format(LASTNAME, FIRSTNAME)
 
 RE_FIRSTNAME = re.compile(u'^{}$'.format(FIRSTNAME))
